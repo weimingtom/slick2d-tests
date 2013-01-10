@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<!-- Images -->
+	<image id="CRYUS">res/cryus.png</image>	
+	<image id="BALL">res/fussball.png</image>
+	<image id="WALL">res/wall.png</image>
+	<image id="WALL_BUMP">res/wall-bump.png</image>
+	<image id="LIGHTMAP">res/shadow.png</image>
+	<image id="HOUSE">res/rodan_house2.png</image>
+	<image id="GREEN_SPELL">res/green-spell.png</image>
+	
+	<!-- Colors -->
+	<color id="NIGHTBLUE">#110033</color>
+	<color id="TORCH1">#ffcc99</color>
+	<color id="TORCH2">#ddaa66</color>
+	<color id="UPPER_COLOR">#005500</color>
+	<color id="LOWER_COLOR">#008800</color>
+</resources>
+	

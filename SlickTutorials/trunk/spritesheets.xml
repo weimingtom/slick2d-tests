@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<image id="CRYUS">res/cryus.png</image>	
+	<image id="WALL">res/wall.png</image>
+	<image id="WALL_BUMP">res/wall-bump.png</image>
+	<image id="SHADOW">res/shadow.png</image>
+</resources>

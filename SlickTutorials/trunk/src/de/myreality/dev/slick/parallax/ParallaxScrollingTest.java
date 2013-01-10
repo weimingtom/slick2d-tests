@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.imageout.ImageOut;
 
+import de.myreality.dev.chronos.toolkit.models.Entity;
 import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
 import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
 
@@ -27,6 +28,8 @@ public class ParallaxScrollingTest extends BasicGame {
 	private ParallaxMapper mapper;
 	
 	private Image screenBuffer;
+	
+	private Entity camera;
 
 	public ParallaxScrollingTest() {
 		super("Slick2D - Parallax Scrolling Test");
@@ -56,16 +59,20 @@ public class ParallaxScrollingTest extends BasicGame {
 		mapper.addLayer(stars1);
 		mapper.addLayer(middleSetting2);
 		mapper.addLayer(nearSetting);
+		
+		camera = new Entity();
+		camera.setBounds(0, 0, 0, gc.getWidth(), gc.getHeight(), 0);
+		mapper.attachTo(camera);
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		mapper.render(gc, g);
+		mapper.render(gc, null, g);
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		mapper.update(gc, delta);
+		mapper.update(gc, null, delta);
 		Input input = gc.getInput();
 		
 		int mouseX = input.getMouseX();
@@ -79,8 +86,8 @@ public class ParallaxScrollingTest extends BasicGame {
 		
 		float speed = 2.2f * delta;
 		
-		mapper.getPosition().x += normalDirection.x * speed;
-		mapper.getPosition().y += normalDirection.y * speed;
+		camera.setGlobalX(camera.getGlobalX() + normalDirection.x * speed);
+		camera.setGlobalY(camera.getGlobalY() + normalDirection.y * speed);
 		
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			gc.exit();
@@ -94,8 +101,8 @@ public class ParallaxScrollingTest extends BasicGame {
 
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer game = new AppGameContainer(new ParallaxScrollingTest());
-		game.setVSync(true);
-		game.setDisplayMode(1366, 768, true);
+		//game.setVSync(true);
+		game.setDisplayMode(800,600,false);
 		game.setAlwaysRender(false);
 		game.start();
 	}

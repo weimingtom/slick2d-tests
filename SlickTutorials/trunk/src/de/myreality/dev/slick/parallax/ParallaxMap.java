@@ -26,8 +26,8 @@ public class ParallaxMap {
 		Image tile = tileResource.get();
 		
 		if (tile != null) {
-			int xResult = (int) (-parentMapper.getPosition().x * 1.0f / settings.getDistance());
-			int yResult = (int) (-parentMapper.getPosition().y * 1.0f / settings.getDistance());
+			int xResult = (int) (-parentMapper.getGlobalX() * 1.0f / settings.getDistance());
+			int yResult = (int) (-parentMapper.getGlobalY() * 1.0f / settings.getDistance());
 			
 			g.setClip(0, 0, gc.getWidth(), gc.getHeight());
 			

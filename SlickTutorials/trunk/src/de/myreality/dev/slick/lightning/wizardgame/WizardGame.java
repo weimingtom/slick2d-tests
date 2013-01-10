@@ -114,7 +114,7 @@ public class WizardGame extends BasicGame {
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer game = new AppGameContainer(new WizardGame());
 		game.setAlwaysRender(false);
-		game.setVSync(true);
+		//game.setVSync(true);
 		game.setDisplayMode(800, 600, false);
 		game.start();
 	}

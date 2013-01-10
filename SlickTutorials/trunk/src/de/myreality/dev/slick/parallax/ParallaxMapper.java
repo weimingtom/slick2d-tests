@@ -4,22 +4,18 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.Vector2f;
+import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
 
-public class ParallaxMapper {
+public class ParallaxMapper extends SlickEntity {
 	
+	private static final long serialVersionUID = 1L;
+
 	private ArrayList<ParallaxMap> layers;
-	
-	private Vector2f position;
 	
 	public ParallaxMapper() {
 		layers = new ArrayList<ParallaxMap>();
-		position = new Vector2f();
-	}
-	
-	public Vector2f getPosition() {
-		return position;
 	}
 	
 	public void addLayer(ParallaxMap mapLayer) {
@@ -30,16 +26,22 @@ public class ParallaxMapper {
 		layers.add(new ParallaxMap(this, settings));
 	}
 
-	public void update(GameContainer gc, int delta) {
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		super.update(gc, sbg, delta);
 		for (ParallaxMap layer : layers) {
 			layer.update(gc, delta);
 		}
 	}
-	
-	public void render(GameContainer gc, Graphics g) {
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		super.render(gc, sbg, g);
 		for (ParallaxMap layer : layers) {
 			layer.render(gc, g);
 		}
 	}
+	
+	
 
 }

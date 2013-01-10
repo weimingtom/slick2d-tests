@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<image id="SPACE_FAR">res/backgrounds/space-far.png</image>
+	<image id="SPACE_MIDDLE">res/backgrounds/space-middle.png</image>
+	<image id="SPACE_MIDDLE2">res/backgrounds/space-middle2.png</image>
+	<image id="SPACE_NEAR">res/backgrounds/space-near.png</image>
+	<image id="SPACE_STARS_1">res/backgrounds/space-stars-1.png</image>
+	
+</resources>
+	

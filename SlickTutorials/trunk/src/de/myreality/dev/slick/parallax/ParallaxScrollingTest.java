@@ -48,7 +48,7 @@ public class ParallaxScrollingTest extends BasicGame {
 		ParallaxSettings middleSetting = new ParallaxSettings("SPACE_MIDDLE", 45);
 		ParallaxSettings stars1 = new ParallaxSettings("SPACE_STARS_1", 30);
 		ParallaxSettings stars2 = new ParallaxSettings("SPACE_STARS_1", 60);
-		ParallaxSettings middleSetting2 = new ParallaxSettings("SPACE_MIDDLE2", 15);
+		ParallaxSettings middleSetting2 = new ParallaxSettings("SPACE_MIDDLE2", 20);
 		ParallaxSettings nearSetting = new ParallaxSettings("SPACE_NEAR", 5);
 		
 		stars2.setWidth(250).setHeight(250);

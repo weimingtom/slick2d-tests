@@ -26,6 +26,10 @@ public class ParallaxSettings {
 		this.distance = distance;
 		velocity = new Vector2f();
 	}
+	
+	public ParallaxSettings(Image tile, float distance) {
+		
+	}
 
 	public String getTileID() {
 		return tileID;

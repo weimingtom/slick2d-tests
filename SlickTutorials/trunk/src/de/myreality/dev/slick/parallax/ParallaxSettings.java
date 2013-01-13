@@ -1,14 +1,13 @@
 package de.myreality.dev.slick.parallax;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 import de.myreality.dev.chronos.toolkit.Vector2f;
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
 
 public class ParallaxSettings {
 	
-	private String tileID;
+	private Image tile;
 	
 	private float distance;
 	
@@ -18,25 +17,23 @@ public class ParallaxSettings {
 	
 	private Vector2f velocity;
 	
-	public ParallaxSettings(String tileID, float distance) {
-		this.tileID = tileID;			
-		Resource<Image> tile = ResourceManager.getInstance().getResource(tileID, Image.class);
-		width = tile.get().getWidth();
-		height = tile.get().getHeight();
-		this.distance = distance;
-		velocity = new Vector2f();
-	}
+	private Color filter;
 	
 	public ParallaxSettings(Image tile, float distance) {
-		
+		this.tile = tile;
+		width = tile.getWidth();
+		height = tile.getHeight();
+		this.distance = distance;
+		velocity = new Vector2f();
+		filter = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	public String getTileID() {
-		return tileID;
+	public Image getTileImage() {
+		return tile;
 	}
 
-	public ParallaxSettings setTileID(String tileID) {
-		this.tileID = tileID;
+	public ParallaxSettings setTileImage(Image tile) {
+		this.tile = tile;
 		return this;
 	}
 
@@ -73,6 +70,15 @@ public class ParallaxSettings {
 
 	public ParallaxSettings setVelocity(Vector2f velocity) {
 		this.velocity = velocity;
+		return this;
+	}
+
+	public Color getFilter() {
+		return filter;
+	}
+
+	public ParallaxSettings setFilter(Color filter) {
+		this.filter = filter;
 		return this;
 	}
 	

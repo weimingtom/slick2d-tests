@@ -3,6 +3,7 @@ package de.myreality.dev.slick.shader;
 import org.lwjgl.Sys;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -50,7 +51,7 @@ public class PixelationTest extends BasicGame {
 	    program.setUniform1f("pixel", pixelSize);
 	    
 		program.setUniform2f("size", gc.getWidth(), gc.getHeight());
-		buffer.draw(0, 0, gc.getWidth(), gc.getHeight());
+		buffer.drawFlash(0, 0, gc.getWidth(), gc.getHeight(), new Color(50, 100, 20, 50));
 		
 		//start using our program
 	    if (shaderWorks)

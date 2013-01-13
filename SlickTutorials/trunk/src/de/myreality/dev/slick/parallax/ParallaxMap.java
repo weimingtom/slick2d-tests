@@ -16,14 +16,15 @@ public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> 
 	public ParallaxMap(ParallaxMapper mapper, ParallaxSettings settings) {
 		this.settings = settings;
 		this.parentMapper = mapper;
+		attachTo(mapper);
 	}
 	
 	private int getTargetX() {
-		return  (int) (-parentMapper.getGlobalX() * 1.0f / settings.getDistance());
+		return  (int) (-getGlobalX() * 1.0f / settings.getDistance());
 	}
 	
 	private int getTargetY() {
-		return (int) (-parentMapper.getGlobalY() * 1.0f / settings.getDistance());
+		return (int) (-getGlobalY() * 1.0f / settings.getDistance());
 	}
 	
 	private int getXClip() {
@@ -53,7 +54,14 @@ public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> 
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		float localX = getLocalX();
+		float localY = getLocalY();
 		
+		localX -= settings.getVelocity().x * delta;
+		localY -= settings.getVelocity().y * delta;
+		
+		setLocalX(localX);
+		setLocalY(localY);
 	}
 	
 	@Override

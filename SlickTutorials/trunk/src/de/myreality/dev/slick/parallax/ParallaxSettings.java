@@ -2,8 +2,7 @@ package de.myreality.dev.slick.parallax;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
-
-import de.myreality.dev.chronos.toolkit.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 public class ParallaxSettings {
 	
@@ -68,8 +67,8 @@ public class ParallaxSettings {
 		return velocity;
 	}
 
-	public ParallaxSettings setVelocity(Vector2f velocity) {
-		this.velocity = velocity;
+	public ParallaxSettings setVelocity(Vector2f vector2f) {
+		this.velocity = vector2f;
 		return this;
 	}
 

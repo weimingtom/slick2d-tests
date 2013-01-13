@@ -1,9 +1,11 @@
 package de.myreality.dev.slick.parallax;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,6 +13,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.imageout.ImageOut;
+import org.newdawn.slick.opengl.shader.ShaderProgram;
 
 import de.myreality.dev.chronos.toolkit.models.Entity;
 import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
@@ -21,7 +24,7 @@ import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  */
-public class ParallaxScrollingTest extends BasicGame {
+public class ProceduralGeneratedSpace extends BasicGame {
 	
 	private ResourceManager manager;
 	
@@ -31,8 +34,8 @@ public class ParallaxScrollingTest extends BasicGame {
 	
 	private Entity camera;
 
-	public ParallaxScrollingTest() {
-		super("Slick2D - Parallax Scrolling Test");
+	public ProceduralGeneratedSpace() {
+		super("Slick2D - Procedural Generated Space");
 	}
 	
 	@Override
@@ -42,9 +45,12 @@ public class ParallaxScrollingTest extends BasicGame {
 		manager.addResourceLoader(ImageLoader.getInstance());
 		manager.fromXML("space.xml");
 		
-		mapper = new ParallaxMapper();
+		mapper = new ParallaxMapper();		
 		
-		ParallaxSettings farSetting = new ParallaxSettings(manager.getResource("SPACE_FAR", Image.class).get(), 100);		
+		GeneratedImage backgroundSpace = new GeneratedImage(800, 800, getSpaceShaders(), 14500);
+		
+		ParallaxSettings farSetting = new ParallaxSettings(backgroundSpace.get(), 100);		
+		farSetting.setFilter(new Color(30, 0, 70));
 		ParallaxSettings middleSetting = new ParallaxSettings(manager.getResource("SPACE_MIDDLE", Image.class).get(), 45);
 		ParallaxSettings stars1 = new ParallaxSettings(manager.getResource("SPACE_STARS_1", Image.class).get(), 30);
 		ParallaxSettings stars2 = new ParallaxSettings(manager.getResource("SPACE_STARS_1", Image.class).get(), 60);
@@ -66,6 +72,20 @@ public class ParallaxScrollingTest extends BasicGame {
 		camera.setBounds(0, 0, 0, gc.getWidth(), gc.getHeight(), 0);
 		mapper.attachTo(camera);
 	}
+	
+	private ArrayList<ShaderProgram> getSpaceShaders() {
+		ArrayList<ShaderProgram> programs = new ArrayList<ShaderProgram>();
+		
+		try {
+			programs.add(ShaderProgram.loadProgram("res/shaders/perlin.vert", "res/shaders/perlin.frag"));
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
+		return programs;
+	}
+	
+	
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -102,7 +122,7 @@ public class ParallaxScrollingTest extends BasicGame {
 	}
 
 	public static void main(String[] args) throws SlickException {
-		AppGameContainer game = new AppGameContainer(new ParallaxScrollingTest());
+		AppGameContainer game = new AppGameContainer(new ProceduralGeneratedSpace());
 		//game.setVSync(true);
 		game.setDisplayMode(800,600,false);
 		game.setAlwaysRender(false);

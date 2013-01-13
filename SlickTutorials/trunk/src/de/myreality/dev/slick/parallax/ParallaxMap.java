@@ -5,8 +5,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
 import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
 
 public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> {
@@ -59,9 +57,8 @@ public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> 
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		Resource<Image> tileResource = ResourceManager.getInstance().getResource(settings.getTileID(), Image.class);
-		Image tile = tileResource.get();
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {		
+		Image tile = settings.getTileImage();
 		
 		if (tile != null) {
 			
@@ -69,7 +66,7 @@ public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> 
 			
 			for (int x = getStartX(); x < gc.getWidth() + settings.getWidth(); x += settings.getWidth()) {
 				for (int y = getStartY(); y < gc.getHeight() + settings.getHeight(); y += settings.getHeight()) {
-					tile.draw(x + getXClip(), y + getYClip(), settings.getWidth(), settings.getHeight());
+					tile.draw(x + getXClip(), y + getYClip(), settings.getWidth(), settings.getHeight(), settings.getFilter());
 				}
 			}
 			

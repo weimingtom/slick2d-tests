@@ -1,7 +1,6 @@
 package de.myreality.dev.slick.parallax;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,29 +8,47 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
 
+/**
+ * Mapper in order to manage all layers
+ * 
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ */
 public class ParallaxMapper extends SlickEntity {
 	
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<ParallaxMap> layers;
+	// Ordered layers
+	private ArrayList<ParallaxLayer> layers;
 	
+	/**
+	 * Basic Constructor
+	 */
 	public ParallaxMapper() {
-		layers = new ArrayList<ParallaxMap>();
+		layers = new ArrayList<ParallaxLayer>();
 	}
 	
-	public void addLayer(ParallaxMap mapLayer) {
+	/**
+	 * Add a new layer to the mapper
+	 * 
+	 * @param mapLayer target layer
+	 */
+	public void addLayer(ParallaxLayer mapLayer) {
 		layers.add(mapLayer);
-		Collections.sort(layers);
 	}
 	
+	/**
+	 * Add a new layer to the mapper with the given settings
+	 * 
+	 * @param settings Layer settings
+	 */
 	public void addLayer(ParallaxSettings settings) {
-		addLayer(new ParallaxMap(this, settings));
+		addLayer(new ParallaxLayer(this, settings));
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		super.update(gc, sbg, delta);
-		for (ParallaxMap layer : layers) {
+		for (ParallaxLayer layer : layers) {
 			layer.update(gc, sbg, delta);
 		}
 	}
@@ -39,11 +56,8 @@ public class ParallaxMapper extends SlickEntity {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		super.render(gc, sbg, g);
-		for (ParallaxMap layer : layers) {
+		for (ParallaxLayer layer : layers) {
 			layer.render(gc, sbg, g);
 		}
 	}
-	
-	
-
 }

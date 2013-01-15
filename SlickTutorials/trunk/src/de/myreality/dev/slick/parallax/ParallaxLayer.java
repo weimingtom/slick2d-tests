@@ -7,24 +7,27 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
 
-public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> {
+/**
+ * Implementation of the Parallax Layer
+ * 
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ */
+public class ParallaxLayer extends SlickEntity implements Comparable<ParallaxLayer> {
 
 	private static final long serialVersionUID = 1L;
 	private ParallaxSettings settings;
-	private ParallaxMapper parentMapper;
 	
-	public ParallaxMap(ParallaxMapper mapper, ParallaxSettings settings) {
+	public ParallaxLayer(ParallaxMapper mapper, ParallaxSettings settings) {
 		this.settings = settings;
-		this.parentMapper = mapper;
 		attachTo(mapper);
 	}
 	
 	private int getTargetX() {
-		return  (int) (-getGlobalX() * 1.0f / settings.getDistance());
+		return  (int) (-getGlobalX() / settings.getDistance());
 	}
 	
 	private int getTargetY() {
-		return (int) (-getGlobalY() * 1.0f / settings.getDistance());
+		return (int) (-getGlobalY() / settings.getDistance());
 	}
 	
 	private int getXClip() {
@@ -83,7 +86,7 @@ public class ParallaxMap extends SlickEntity implements Comparable<ParallaxMap> 
 	}
 
 	@Override
-	public int compareTo(ParallaxMap otherMap) {
+	public int compareTo(ParallaxLayer otherMap) {
 		float distance = settings.getDistance();
 		float otherDistance = otherMap.settings.getDistance();
 		

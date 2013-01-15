@@ -124,7 +124,7 @@ public class ProceduralGeneratedSpace extends BasicGame {
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer game = new AppGameContainer(new ProceduralGeneratedSpace());
 		//game.setVSync(true);
-		game.setDisplayMode(800,600,false);
+		game.setDisplayMode(1920,1080,true);
 		game.setAlwaysRender(false);
 		game.start();
 	}

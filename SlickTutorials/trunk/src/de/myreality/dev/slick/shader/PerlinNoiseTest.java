@@ -13,6 +13,7 @@ public class PerlinNoiseTest extends BasicGame {
 	
 	private Image background;
 	private ShaderProgram program;
+	private int frame;
 	
 	public PerlinNoiseTest() {
 		super("Chronos - Perlin Noise Shader Test");
@@ -20,7 +21,10 @@ public class PerlinNoiseTest extends BasicGame {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		background.draw(0, 0, gc.getWidth(), gc.getHeight());
+		program.bind();
+	    program.setUniform1f("time", frame * 0.00005f);
+	    background.draw();
+	    program.unbind();
 	}
 
 	@Override
@@ -37,17 +41,12 @@ public class PerlinNoiseTest extends BasicGame {
 		
 		// load our shader program
 	    try {
-	    	Graphics g = background.getGraphics();
 	        // load our vertex and fragment shaders
 	        final String VERT = "res/shaders/perlin.vert";
 	        final String FRAG = "res/shaders/perlin.frag";
 	        program = ShaderProgram.loadProgram(VERT, FRAG);
 	        
-		    program.bind();
-		    program.setUniform1f("time", (int) (Math.random() * 10000));
-		    background.draw();
-		    program.unbind();
-		    g.flush();
+
 	    } catch (SlickException e) {
 	        // there was a problem compiling our source! show the log
 	        e.printStackTrace();
@@ -58,7 +57,7 @@ public class PerlinNoiseTest extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
+		frame += delta;
 		
 	}
 	

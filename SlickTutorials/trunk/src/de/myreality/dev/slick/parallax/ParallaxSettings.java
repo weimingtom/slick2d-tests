@@ -4,20 +4,38 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
+/**
+ * Implementation of ParallaxSettings
+ * 
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ *
+ */
 public class ParallaxSettings {
 	
+	// Image tile
 	private Image tile;
 	
+	// Distance of the layer
 	private float distance;
 	
+	// Target tile width
 	private int width;
 	
+	// Target tile height
 	private int height;
 	
+	// Velocity of the layer
 	private Vector2f velocity;
 	
+	// Color filter (default is white)
 	private Color filter;
 	
+	/**
+	 * Constructor of the setting class
+	 * 
+	 * @param tile Tile image
+	 * @param distance Distance of the layer
+	 */
 	public ParallaxSettings(Image tile, float distance) {
 		this.tile = tile;
 		width = tile.getWidth();

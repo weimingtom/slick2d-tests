@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,6 +12,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.imageout.ImageOut;
+import org.newdawn.slick.opengl.shader.ShaderProgram;
 
 import de.myreality.dev.chronos.toolkit.models.Entity;
 import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
@@ -29,7 +31,11 @@ public class ParallaxScrollingTest extends BasicGame {
 	
 	private Image screenBuffer;
 	
-	private Entity camera;
+	private Image overlay;
+	
+	private Camera camera;
+	
+	private ShaderProgram lineShader;
 
 	public ParallaxScrollingTest() {
 		super("Slick2D - Parallax Scrolling Test");
@@ -42,14 +48,18 @@ public class ParallaxScrollingTest extends BasicGame {
 		manager.addResourceLoader(ImageLoader.getInstance());
 		manager.fromXML("space.xml");
 		
-		mapper = new ParallaxMapper();
+		//lineShader = ShaderProgram.loadProgram("res/shaders/scanline-medium.vert", "res/shaders/scanline-medium.frag");
+		//lineShader.setUniform2f("rubyTextureSize", new Vector2f(1.0f, 1.0f));
+		//lineShader.setUniform2f("rubyInputSize", new Vector2f(0.5f, 0.5f));
+		//lineShader.setUniform2f("rubyOutputSize", new Vector2f(0.5f, 0.5f));
+		mapper = new ParallaxMapper(gc.getWidth(), gc.getHeight());
 		
 		ParallaxSettings farSetting = new ParallaxSettings(manager.getResource("SPACE_FAR", Image.class).get(), 100);		
 		ParallaxSettings middleSetting = new ParallaxSettings(manager.getResource("SPACE_MIDDLE", Image.class).get(), 45);
 		ParallaxSettings stars1 = new ParallaxSettings(manager.getResource("SPACE_STARS_1", Image.class).get(), 30);
 		ParallaxSettings stars2 = new ParallaxSettings(manager.getResource("SPACE_STARS_1", Image.class).get(), 60);
 		ParallaxSettings middleSetting2 = new ParallaxSettings(manager.getResource("SPACE_MIDDLE2", Image.class).get(), 20);
-		ParallaxSettings nearSetting = new ParallaxSettings(manager.getResource("SPACE_NEAR", Image.class).get(), 10);
+		ParallaxSettings nearSetting = new ParallaxSettings(manager.getResource("SPACE_NEAR", Image.class).get(), 7);
 		ParallaxSettings farFogSetting = new ParallaxSettings(manager.getResource("SPACE_NEAR", Image.class).get(), 45);
 		
 		stars2.setWidth(250).setHeight(250);
@@ -62,14 +72,38 @@ public class ParallaxScrollingTest extends BasicGame {
 		mapper.addLayer(middleSetting2);
 		mapper.addLayer(nearSetting);
 		
-		camera = new Entity();
+		camera = new Camera(gc);
 		camera.setBounds(0, 0, 0, gc.getWidth(), gc.getHeight(), 0);
 		mapper.attachTo(camera);
+		
+		
+		overlay = getStripedLineImage(gc);
+	}
+	
+	private Image getStripedLineImage(GameContainer gc) throws SlickException {
+		Image buffer = Image.createOffscreenImage(gc.getWidth(), gc.getHeight());
+		
+		Graphics g = buffer.getGraphics();
+		
+		g.setColor(new Color(250, 250, 250, 60));
+		for (int y = 0; y < buffer.getHeight(); y += 6) {
+			g.fillRect(0, y, buffer.getWidth(), 2);
+		}
+		
+		g.flush();
+		
+		return buffer;
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		g.scale(camera.getScale(), camera.getScale());
+		//lineShader.bind();
 		mapper.render(gc, null, g);
+		//lineShader.unbind();
+		overlay.draw(0, 0, gc.getWidth() / camera.getScale(), gc.getHeight() / camera.getScale());
+		
+		g.scale(-camera.getScale(), -camera.getScale());
 	}
 
 	@Override
@@ -86,8 +120,10 @@ public class ParallaxScrollingTest extends BasicGame {
 		Vector2f direction = new Vector2f(mouseX - centerX, mouseY - centerY);
 		Vector2f normalDirection = direction.getNormal();
 		
-		float speed = 2.2f * delta;
+		float speed = (1 / camera.getScale() * 4) * delta;
 		
+		int zoomOffsetX = camera.getWidth() - gc.getWidth();
+		int zoomOffsetY = camera.getHeight() - gc.getHeight();
 		camera.setGlobalX(camera.getGlobalX() + normalDirection.x * speed);
 		camera.setGlobalY(camera.getGlobalY() + normalDirection.y * speed);
 		
@@ -99,6 +135,25 @@ public class ParallaxScrollingTest extends BasicGame {
 			takeScreenshot(gc, ".png");
 		}
 		
+		float scaleFactor = 0.001f * delta;
+		if (input.isKeyDown(Input.KEY_S)) {
+			camera.setScale(camera.getScale() + scaleFactor);
+		}
+		
+		if (input.isKeyDown(Input.KEY_D)) {
+			camera.setScale(camera.getScale() - scaleFactor);
+		}
+		
+		if (camera.getScale() > 1.5f) {
+			camera.setScale(1.5f);
+		}
+		
+		if (camera.getScale() < 0.1f) {
+			camera.setScale(0.1f);
+		}
+		
+		
+		mapper.setDimensions((int)(gc.getWidth() / camera.getScale()), (int)(gc.getHeight() / camera.getScale()), 0);
 	}
 
 	public static void main(String[] args) throws SlickException {

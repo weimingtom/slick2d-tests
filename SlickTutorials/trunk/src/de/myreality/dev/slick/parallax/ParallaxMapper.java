@@ -23,8 +23,9 @@ public class ParallaxMapper extends SlickEntity {
 	/**
 	 * Basic Constructor
 	 */
-	public ParallaxMapper() {
+	public ParallaxMapper(int width, int height) {
 		layers = new ArrayList<ParallaxLayer>();
+		setDimensions(width, height, 0);
 	}
 	
 	/**
@@ -48,6 +49,7 @@ public class ParallaxMapper extends SlickEntity {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		super.update(gc, sbg, delta);
+		
 		for (ParallaxLayer layer : layers) {
 			layer.update(gc, sbg, delta);
 		}

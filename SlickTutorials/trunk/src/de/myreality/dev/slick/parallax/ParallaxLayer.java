@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
+import de.myreality.dev.chronos.toolkit.models.Entity;
 import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
 
 /**
@@ -71,12 +72,14 @@ public class ParallaxLayer extends SlickEntity implements Comparable<ParallaxLay
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {		
 		Image tile = settings.getTileImage();
 		
+		Entity parent = getParent();
+		
 		if (tile != null) {
 			
-			g.setClip(0, 0, gc.getWidth(), gc.getHeight());
+			g.setClip(0, 0,gc.getWidth(), gc.getHeight());
 			
-			for (int x = getStartX(); x < gc.getWidth() + settings.getWidth(); x += settings.getWidth()) {
-				for (int y = getStartY(); y < gc.getHeight() + settings.getHeight(); y += settings.getHeight()) {
+			for (int x = getStartX(); x < parent.getWidth() + settings.getWidth(); x += settings.getWidth()) {
+				for (int y = getStartY(); y < parent.getHeight() + settings.getHeight(); y += settings.getHeight()) {
 					tile.draw(x + getXClip(), y + getYClip(), settings.getWidth(), settings.getHeight(), settings.getFilter());
 				}
 			}

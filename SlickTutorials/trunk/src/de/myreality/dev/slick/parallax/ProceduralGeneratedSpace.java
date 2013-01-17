@@ -45,11 +45,11 @@ public class ProceduralGeneratedSpace extends BasicGame {
 		manager.addResourceLoader(ImageLoader.getInstance());
 		manager.fromXML("space.xml");
 		
-		mapper = new ParallaxMapper();		
+		mapper = new ParallaxMapper(gc.getWidth(), gc.getHeight());		
 		
 		GeneratedImage backgroundSpace = new GeneratedImage(800, 800, getSpaceShaders(), 14500);
 		
-		ParallaxSettings farSetting = new ParallaxSettings(backgroundSpace.get(), 100);		
+		ParallaxSettings farSetting = new ParallaxSettings(backgroundSpace, 100);		
 		farSetting.setFilter(new Color(30, 0, 70));
 		ParallaxSettings middleSetting = new ParallaxSettings(manager.getResource("SPACE_MIDDLE", Image.class).get(), 45);
 		ParallaxSettings stars1 = new ParallaxSettings(manager.getResource("SPACE_STARS_1", Image.class).get(), 30);
@@ -124,7 +124,7 @@ public class ProceduralGeneratedSpace extends BasicGame {
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer game = new AppGameContainer(new ProceduralGeneratedSpace());
 		//game.setVSync(true);
-		game.setDisplayMode(1920,1080,true);
+		game.setDisplayMode(800,600,false);
 		game.setAlwaysRender(false);
 		game.start();
 	}

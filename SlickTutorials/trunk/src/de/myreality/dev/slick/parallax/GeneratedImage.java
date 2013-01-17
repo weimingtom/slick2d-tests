@@ -7,32 +7,28 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.shader.ShaderProgram;
 
-public class GeneratedImage {
-	
-	private Image image;
+public class GeneratedImage extends Image {
 	
 	private float time;
 
-	public GeneratedImage(int width, int height, Collection<ShaderProgram> programs, float time) {
+	public GeneratedImage(int width, int height, Collection<ShaderProgram> programs, float time) throws SlickException {
+		super(width, height);
 		this.time = time;
+		
 		try {
-			image = Image.createOffscreenImage(width, height, Image.FILTER_LINEAR);
-			applyShaders(image, programs);
+			Image buffer = Image.createOffscreenImage(width, height, Image.FILTER_LINEAR);
+			applyShaders(buffer, programs);
+			buffer.getGraphics().copyArea(this, 0, 0);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-	public GeneratedImage(int width, int height, Collection<ShaderProgram> programs) {
+	public GeneratedImage(int width, int height, Collection<ShaderProgram> programs) throws SlickException {
 		this(width, height, programs, 0);
 	}
-	
-	public Image get() {
-		return image;
-	}
-	
-	
+
 	private void applyShaders(Image target, Collection<ShaderProgram> programs) throws SlickException {
 		for (ShaderProgram program : programs) {
 			Graphics g = target.getGraphics();

@@ -17,6 +17,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
+import de.myreality.dev.chronos.models.Bounding;
 import de.myreality.dev.chronos.models.Entity;
 import de.myreality.dev.chronos.models.EntityManager;
 import de.myreality.dev.chronos.models.EntitySystem;
@@ -220,11 +221,11 @@ public class CollisionDetectionTracking extends BasicGame {
 	
 	private boolean checkCollision(Entity entity) {
 		if (useQuadTree) {
-			List<Entity> returnObjects = new ArrayList<Entity>();
+			List<Bounding> returnObjects = new ArrayList<Bounding>();
 			collisionTree.retrieve(returnObjects, entity);
 			 
-			for (Entity other : returnObjects) {
-			    if (other != entity && other.collidateWidth((SlickEntity) entity)) {
+			for (Bounding other : returnObjects) {
+			    if (other != entity && other.collidateWith((SlickEntity) entity)) {
 			    	return true;
 			    }
 			}
@@ -232,7 +233,7 @@ public class CollisionDetectionTracking extends BasicGame {
 			return false;
 		} else {
 			for (Entity other : renderSystem.getAllEntities()) {
-				if (other != entity && other.collidateWidth((SlickEntity) entity)) {
+				if (other != entity && other.collidateWith((SlickEntity) entity)) {
 			    	return true;
 			    }
 			}

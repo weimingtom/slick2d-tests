@@ -13,10 +13,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
+import de.myreality.dev.chronos.models.Bounding;
 import de.myreality.dev.chronos.models.Entity;
 import de.myreality.dev.chronos.models.EntityManager;
 import de.myreality.dev.chronos.models.EntitySystem;
 import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ColorLoader;
 import de.myreality.dev.chronos.slick.ImageLoader;
 import de.myreality.dev.chronos.slick.ImageRenderComponent;
 import de.myreality.dev.chronos.slick.SlickComponent;
@@ -65,6 +67,7 @@ public class CollisionDetectionTest extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		manager.addResourceLoader(ImageLoader.getInstance());
+		manager.addResourceLoader(ColorLoader.getInstance());
 		manager.fromXML("resources.xml");
 		renderSystem = EntityManager.getInstance().addSystem("RENDER_SYSTEM");
 		
@@ -159,11 +162,11 @@ public class CollisionDetectionTest extends BasicGame {
 	
 	private boolean checkCollision(Entity entity) {
 		if (useQuadTree) {
-			List<Entity> returnObjects = new ArrayList<Entity>();
+			List<Bounding> returnObjects = new ArrayList<Bounding>();
 			collisionTree.retrieve(returnObjects, entity);
 			 
-			for (Entity other : returnObjects) {
-			    if (other != entity && other.collidateWidth((SlickEntity) entity)) {
+			for (Bounding other : returnObjects) {
+			    if (other != entity && other.collidateWith((SlickEntity) entity)) {
 			    	return true;
 			    }
 			}
@@ -171,7 +174,7 @@ public class CollisionDetectionTest extends BasicGame {
 			return false;
 		} else {
 			for (Entity other : renderSystem.getAllEntities()) {
-				if (other != entity && other.collidateWidth((SlickEntity) entity)) {
+				if (other != entity && other.collidateWith((SlickEntity) entity)) {
 			    	return true;
 			    }
 			}

@@ -92,6 +92,9 @@ public class LightingGame extends BasicGame {
 			world.addEntity(createRandomLight(input.getMouseX(), input.getMouseY()));
 		}
 		
+		if (input.isKeyDown(Input.KEY_DELETE)) {
+			world.setLightingSystem(null);
+		}
 		
 		
 		basicLight.setGlobalCenterX(input.getMouseX());

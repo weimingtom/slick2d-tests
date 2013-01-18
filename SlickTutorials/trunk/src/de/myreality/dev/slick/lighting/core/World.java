@@ -31,4 +31,8 @@ public interface World {
 	void setAmbientColor(Color color);
 	
 	Color getAmbientColor();
+	
+	void setLightingSystem(LightingSystem lightingSystem);
+	
+	LightingSystem getLightingSystem();
 }

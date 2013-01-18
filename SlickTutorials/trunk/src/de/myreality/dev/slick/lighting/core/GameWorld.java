@@ -108,4 +108,20 @@ public class GameWorld implements World {
 		}
 	}
 
+	@Override
+	public void setLightingSystem(LightingSystem lightingSystem) {
+		if (renderSystem != null) {
+			renderSystem.setLightingSystem(lightingSystem);
+		}
+	}
+
+	@Override
+	public LightingSystem getLightingSystem() {
+		if (renderSystem != null) {
+			return renderSystem.getLightingSystem();
+		} else {
+			return null;
+		}
+	}
+
 }

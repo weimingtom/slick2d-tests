@@ -3,8 +3,8 @@ package de.myreality.dev.slick.lightning;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import de.myreality.dev.chronos.toolkit.resource.Freeable;
-import de.myreality.dev.chronos.toolkit.resource.ResourceLoader;
+import de.myreality.dev.chronos.resource.Freeable;
+import de.myreality.dev.chronos.resource.ResourceLoader;
 
 public class SpriteSheetLoader extends ResourceLoader<SpriteSheet> {
 

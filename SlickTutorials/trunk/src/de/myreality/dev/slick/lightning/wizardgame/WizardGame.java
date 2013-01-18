@@ -8,9 +8,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ColorLoader;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ColorLoader;
+import de.myreality.dev.chronos.slick.ImageLoader;
 
 /**
  * Example for rendering a wizard game that includes dynamic shadows,

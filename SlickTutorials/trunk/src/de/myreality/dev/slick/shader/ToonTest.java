@@ -9,11 +9,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.shader.ShaderProgram;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
-import de.myreality.dev.chronos.toolkit.slick.ImageRenderComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.resource.Resource;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ImageLoader;
 
 public class ToonTest extends BasicGame {
 	

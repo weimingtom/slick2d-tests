@@ -7,10 +7,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.models.Entity;
-import de.myreality.dev.chronos.toolkit.models.EntityManager;
-import de.myreality.dev.chronos.toolkit.models.EntitySystem;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.models.Entity;
+import de.myreality.dev.chronos.models.EntityManager;
+import de.myreality.dev.chronos.models.EntitySystem;
+import de.myreality.dev.chronos.slick.SlickEntity;
 
 /**
  * Basic tile world with bump mapping

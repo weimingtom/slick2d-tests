@@ -11,14 +11,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
-import de.myreality.dev.chronos.toolkit.slick.ImageRenderComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.resource.Resource;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.slick.ImageRenderComponent;
+import de.myreality.dev.chronos.slick.SlickEntity;
+import de.myreality.dev.chronos.util.Point2f;
+import de.myreality.dev.chronos.util.Quadtree;
 
 public class ObjectLighting extends BasicGame {
 	
@@ -82,7 +84,7 @@ public class ObjectLighting extends BasicGame {
 		ball.setGlobalPosition(400, 300);
 		entities.add(ball);
 		
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 900; i++) {
 			Ball tempBall = new Ball("Ball", lights);
 			tempBall.setGlobalPosition((float)(Math.random() * container.getWidth()), (float)(Math.random() * container.getHeight()));
 			entities.add(tempBall);
@@ -93,7 +95,7 @@ public class ObjectLighting extends BasicGame {
 	public void update(GameContainer container, int delta)
 			throws SlickException {
 		Input input = container.getInput();
-		light.setGlobalPosition(input.getMouseX(), input.getMouseY());
+		light.setGlobalCenterPosition(input.getMouseX(), input.getMouseY(), 0);
 		
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			Random random = new Random();
@@ -103,8 +105,9 @@ public class ObjectLighting extends BasicGame {
 		}
 		
 		for (SlickEntity entity : entities) {
-			//entity.setRotation((float) (entity.getRotation() + Math.sin((float)delta / 10)));
+			entity.rotate(0.1f * delta);
 			entity.update(container, null, delta);
+			
 		}
 	}
 	
@@ -126,7 +129,7 @@ public class ObjectLighting extends BasicGame {
 			super(null);
 			Resource<Image> sprite = ResourceManager.getInstance().getResource("BALL", Image.class);
 			this.addComponent(new LightRenderComponent("BALL", sprite.get(), lights));
-			this.setDimensions(sprite.get().getWidth(), sprite.get().getHeight(), 0);
+			this.setDimensions(20, 20, 0);
 		}		
 	}
 	
@@ -142,40 +145,29 @@ public class ObjectLighting extends BasicGame {
 			super(id);
 			this.lights = lights;
 		}
-		
-		private Point normalizePosition(SlickEntity entity, float x, float y) {
-			 return new Point(x, y);
-		}
 
 		@Override
 		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {			
 
 			if (getOwner() instanceof SlickEntity) {
 				
-				SlickEntity slickOwner = (SlickEntity)getOwner();
+				SlickEntity slickOwner = (SlickEntity)getOwner();				
 				
-				// At first, calculate the corners
-				Point[] corners = new Point[4];
-				corners[Image.TOP_LEFT] = normalizePosition(slickOwner, slickOwner.getGlobalX(), slickOwner.getGlobalY());
-				corners[Image.TOP_RIGHT] = normalizePosition(slickOwner, slickOwner.getGlobalX() + slickOwner.getWidth(), slickOwner.getGlobalY());
-				corners[Image.BOTTOM_LEFT] = normalizePosition(slickOwner, slickOwner.getGlobalX(), slickOwner.getGlobalY() + slickOwner.getHeight());
-				corners[Image.BOTTOM_RIGHT] = normalizePosition(slickOwner, slickOwner.getGlobalX() + slickOwner.getWidth(), slickOwner.getGlobalY() + slickOwner.getHeight());
-				
-				for (int i = 0; i < corners.length;++i) {					
+				for (int i = 0; i < slickOwner.getBounds().length; ++i) {					
 
 					float colorRed = 0, colorGreen = 0, colorBlue = 0;
 					
-					for (Light light : lights) {
-					
-						Point corner = corners[i];
+					for (Light light : lights) {						
+						Point2f bound = slickOwner.getBounds()[i];
+
 						// Calculate the distance
-						float deltaX = light.getGlobalX() - corner.getX();
-						float deltaY = light.getGlobalY() - corner.getY();
+						float deltaX = light.getGlobalCenterX() - bound.x;
+						float deltaY = light.getGlobalCenterY() - bound.y;
 						float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 						//g.setColor(Color.green);
 						//g.drawLine(corner.getX(), corner.getY(), light.getX(), light.getY());
 						
-						float shadowAmount = distance /  light.getSize();	
+						float shadowAmount = distance /  light.getSize() * 2;	
 						if (shadowAmount > 1) {
 							shadowAmount = 1;
 						}
@@ -219,7 +211,7 @@ public class ObjectLighting extends BasicGame {
 
 		public Light(String id, int size, int x, int y, Color color) {
 			super(null);
-			setGlobalPosition(x, y);
+			setGlobalCenterPosition(x, y, 0);
 			this.size = size;
 			this.color = color;
 		}		
@@ -231,5 +223,17 @@ public class ObjectLighting extends BasicGame {
 		public int getSize() {
 			return size;
 		}
+
+		@Override
+		public int getWidth() {
+			return getSize();
+		}
+
+		@Override
+		public int getHeight() {
+			return getSize();
+		}
+		
+		
 	}
 }

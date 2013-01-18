@@ -8,10 +8,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ColorLoader;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
-import de.myreality.dev.chronos.toolkit.slick.SlickComponent;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ColorLoader;
+import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.slick.SlickComponent;
 
 public class SwingGame extends BasicGame {
 	

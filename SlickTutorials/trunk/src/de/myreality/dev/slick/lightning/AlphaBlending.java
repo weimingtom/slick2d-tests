@@ -13,11 +13,11 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
-import de.myreality.dev.chronos.toolkit.slick.SlickRenderComponent;
+import de.myreality.dev.chronos.resource.Resource;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.slick.SlickEntity;
+import de.myreality.dev.chronos.slick.SlickRenderComponent;
  
 /**
  * davedes' Tutorials

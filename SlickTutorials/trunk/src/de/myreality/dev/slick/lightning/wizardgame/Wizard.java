@@ -6,8 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
+import de.myreality.dev.chronos.resource.Resource;
+import de.myreality.dev.chronos.resource.ResourceManager;
 
 public class Wizard extends AnimatedSprite {
 	

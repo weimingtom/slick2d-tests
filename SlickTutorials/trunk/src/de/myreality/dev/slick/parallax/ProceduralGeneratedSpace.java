@@ -15,9 +15,9 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.imageout.ImageOut;
 import org.newdawn.slick.opengl.shader.ShaderProgram;
 
-import de.myreality.dev.chronos.toolkit.models.Entity;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
+import de.myreality.dev.chronos.models.Entity;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ImageLoader;
 
 /**
  * Test case for parallex scolling

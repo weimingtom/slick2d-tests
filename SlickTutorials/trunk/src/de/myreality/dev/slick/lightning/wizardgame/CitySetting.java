@@ -3,8 +3,8 @@ package de.myreality.dev.slick.lightning.wizardgame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
-import de.myreality.dev.chronos.toolkit.resource.Resource;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
+import de.myreality.dev.chronos.resource.Resource;
+import de.myreality.dev.chronos.resource.ResourceManager;
 
 public class CitySetting extends WorldSettings {
 

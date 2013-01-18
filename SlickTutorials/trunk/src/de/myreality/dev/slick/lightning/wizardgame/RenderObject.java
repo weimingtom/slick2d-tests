@@ -1,6 +1,6 @@
 package de.myreality.dev.slick.lightning.wizardgame;
 
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.slick.SlickEntity;
 
 public abstract class RenderObject extends SlickEntity implements LightingTarget {
 

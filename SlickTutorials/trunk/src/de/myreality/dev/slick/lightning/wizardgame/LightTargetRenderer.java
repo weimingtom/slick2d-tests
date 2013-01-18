@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.models.Entity;
+import de.myreality.dev.chronos.models.Entity;
 
 /**
  * Renderer for light targets

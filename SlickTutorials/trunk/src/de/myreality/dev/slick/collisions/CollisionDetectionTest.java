@@ -13,15 +13,16 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.Vector2f;
-import de.myreality.dev.chronos.toolkit.models.Entity;
-import de.myreality.dev.chronos.toolkit.models.EntityManager;
-import de.myreality.dev.chronos.toolkit.models.EntitySystem;
-import de.myreality.dev.chronos.toolkit.resource.ResourceManager;
-import de.myreality.dev.chronos.toolkit.slick.ImageLoader;
-import de.myreality.dev.chronos.toolkit.slick.ImageRenderComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.models.Entity;
+import de.myreality.dev.chronos.models.EntityManager;
+import de.myreality.dev.chronos.models.EntitySystem;
+import de.myreality.dev.chronos.resource.ResourceManager;
+import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.slick.ImageRenderComponent;
+import de.myreality.dev.chronos.slick.SlickComponent;
+import de.myreality.dev.chronos.slick.SlickEntity;
+import de.myreality.dev.chronos.util.Quadtree;
+import de.myreality.dev.chronos.util.Vector2f;
 
 public class CollisionDetectionTest extends BasicGame {
 	

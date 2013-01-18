@@ -3,9 +3,9 @@ package de.myreality.dev.slick.lightning.wizardgame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.slick.AfterUpdateComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickComponent;
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
+import de.myreality.dev.chronos.slick.AfterUpdateComponent;
+import de.myreality.dev.chronos.slick.SlickComponent;
+import de.myreality.dev.chronos.slick.SlickEntity;
 
 public class WorldBoundComponent extends SlickComponent implements AfterUpdateComponent {
 	

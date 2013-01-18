@@ -6,8 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.slick.SlickEntity;
-import de.myreality.dev.chronos.toolkit.slick.SlickRenderComponent;
+import de.myreality.dev.chronos.slick.SlickEntity;
+import de.myreality.dev.chronos.slick.SlickRenderComponent;
 
 public abstract class AnimatedSprite extends RenderObject implements LightingTarget {
 

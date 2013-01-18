@@ -4,7 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.myreality.dev.chronos.toolkit.slick.SlickComponent;
+import de.myreality.dev.chronos.slick.SlickComponent;
 
 public class WizardMovingComponent extends SlickComponent {
 	

@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import de.myreality.dev.chronos.resource.Resource;
 import de.myreality.dev.chronos.resource.ResourceManager;
 import de.myreality.dev.chronos.slick.SlickEntity;
-import de.myreality.dev.chronos.util.Vector3f;
+import de.myreality.dev.chronos.util.Point3f;
 
 public class Light extends SlickEntity {
 	
@@ -29,8 +29,8 @@ public class Light extends SlickEntity {
 		lightMap = manager.getResource("LIGHTMAP", Image.class);
 		this.color = color;
 		this.size = size;
-		setDimensions(size, size, 0);
-		setGlobalPosition(new Vector3f(x, y, 0));
+		setDimension(size, size, 0);
+		setGlobalPosition(new Point3f(x, y, 0));
 		this.world = world;
 		shadowMapCalculator = new ShadowMapCalculator(world, lightMap.get());
 	}
@@ -49,7 +49,7 @@ public class Light extends SlickEntity {
 
 	public void setSize(int size) {
 		this.size = size;
-		setDimensions(size, size, 0);
+		setDimension(size, size, 0);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import de.myreality.dev.chronos.models.Entity;
 import de.myreality.dev.chronos.models.EntitySystem;
 import de.myreality.dev.chronos.slick.SlickEntity;
+import de.myreality.dev.chronos.util.Point2f;
 
 /**
  * Implementation of a world based render system
@@ -68,6 +69,11 @@ public class WorldRenderSystem implements RenderSystem {
 				SlickEntity slickEntity = ((SlickEntity)entity);
 				slickEntity.setColor(ambientColor);
 				slickEntity.render(gc, sbg, g);
+				
+				//for (Point2f bound : slickEntity.getBounds()) {
+				//	g.setColor(Color.green);
+				//	g.fillRect(bound.x, bound.y, 2, 2);
+				//}
 			}
 		}
 

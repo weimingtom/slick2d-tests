@@ -17,6 +17,7 @@ import de.myreality.dev.chronos.resource.ResourceManager;
 import de.myreality.dev.chronos.slick.ColorLoader;
 import de.myreality.dev.chronos.slick.ImageLoader;
 import de.myreality.dev.chronos.slick.SlickComponent;
+import de.myreality.dev.chronos.slick.SlickEntity;
 import de.myreality.dev.chronos.util.Point2f;
 
 public class LightingGame extends BasicGame {
@@ -25,9 +26,9 @@ public class LightingGame extends BasicGame {
 	
 	private Light basicLight;
 	
-	private static final int ENTITY_COUNT = 800;
-	private static final int ENTITY_SIZE = 30;
-	private static final int LIGHT_SIZE = 250;
+	private static final int ENTITY_COUNT = 100;
+	private static final int ENTITY_SIZE = 60;
+	private static final int LIGHT_SIZE = 550;
 
 	public LightingGame(String title) {
 		super(title);
@@ -59,18 +60,18 @@ public class LightingGame extends BasicGame {
 		Resource<Color> ambientNight = manager.getResource("NIGHTBLUE", Color.class);
 		world.setAmbientColor(ambientNight.get());
 		
-		basicLight = new Light(new Point2f(0, 0), 200);
+		basicLight = new Light(new Point2f(0, 0), 600);
 		
 		world.addEntity(basicLight);
 	}
 	
 	private Entity createRandomEntity(GameContainer gc) {
-		Entity entity = new LightingEntity("BALL");
+		SlickEntity entity = new LightingEntity("BALL");
 		
 		float randomX = (float) (Math.random() * gc.getWidth());
 		float randomY = (float) (Math.random() * gc.getHeight());
 		
-		entity.setBounds(randomX, randomY, 0, ENTITY_SIZE, ENTITY_SIZE, 0);
+		entity.setBounds(randomX, randomY, ENTITY_SIZE, ENTITY_SIZE);
 		entity.addComponent(new RandomRotationComponent());
 		
 		return entity;
@@ -108,6 +109,7 @@ public class LightingGame extends BasicGame {
 		LightingGame game = new LightingGame("Slick2D: Lighting Engine Game");
 		AppGameContainer gameContainer = new AppGameContainer(game);
 		gameContainer.setDisplayMode(800, 600, false);
+		gameContainer.setMinimumLogicUpdateInterval(20);
 		gameContainer.start();		
 	}
 	

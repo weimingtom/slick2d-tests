@@ -25,7 +25,7 @@ public class ParallaxMapper extends SlickEntity {
 	 */
 	public ParallaxMapper(int width, int height) {
 		layers = new ArrayList<ParallaxLayer>();
-		setDimensions(width, height, 0);
+		setDimension(width, height, 0);
 	}
 	
 	/**

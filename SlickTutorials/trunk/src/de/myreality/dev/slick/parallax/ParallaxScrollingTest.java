@@ -85,7 +85,7 @@ public class ParallaxScrollingTest extends BasicGame {
 		Graphics g = buffer.getGraphics();
 		
 		g.setColor(new Color(250, 250, 250, 60));
-		for (int y = 0; y < buffer.getHeight(); y += 6) {
+		for (int y = 0; y < buffer.getHeight(); y += 5) {
 			g.fillRect(0, y, buffer.getWidth(), 2);
 		}
 		
@@ -152,10 +152,11 @@ public class ParallaxScrollingTest extends BasicGame {
 		}
 		
 		
-		mapper.setDimensions((int)(gc.getWidth() / camera.getScale()), (int)(gc.getHeight() / camera.getScale()), 0);
+		mapper.setDimension((int)(gc.getWidth() / camera.getScale()), (int)(gc.getHeight() / camera.getScale()), 0);
 	}
 
 	public static void main(String[] args) throws SlickException {
+
 		AppGameContainer game = new AppGameContainer(new ParallaxScrollingTest());
 		//game.setVSync(true);
 		game.setDisplayMode(800,600,false);

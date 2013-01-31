@@ -12,16 +12,24 @@ public class Camera extends SlickEntity {
 	
 	public Camera(GameContainer gc) {
 		this.container = gc;
-		setDimensions(gc.getWidth(), gc.getHeight(), 0);
+		setDimension(gc.getWidth(), gc.getHeight(), 0);
 	}
 
 	@Override
 	public int getWidth() {
-		return (int) (container.getWidth() / getScale());
+		if (container != null) {
+			return (int) (container.getWidth() / getScale());
+		} else {
+			return super.getWidth();
+		}
 	}
 
 	@Override
 	public int getHeight() {
-		return (int) (container.getHeight() / getScale());
+		if (container != null) {
+			return (int) (container.getHeight() / getScale());
+		} else {
+			return super.getHeight();
+		}
 	}
 }

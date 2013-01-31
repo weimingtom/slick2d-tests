@@ -127,7 +127,7 @@ public class AdvancedObjectLighting extends BasicGame {
 			super(null);
 			Resource<Image> sprite = ResourceManager.getInstance().getResource("BALL", Image.class);
 			this.addComponent(new LightRenderComponent("BALL", sprite.get(), lights));
-			this.setDimensions(20, 20, 0);
+			this.setDimension(20, 20, 0);
 		}		
 	}
 	

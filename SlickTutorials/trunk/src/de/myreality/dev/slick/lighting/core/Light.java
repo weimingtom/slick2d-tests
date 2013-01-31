@@ -21,7 +21,7 @@ public class Light extends SlickEntity {
 	 * @param position position
 	 */
 	public Light(Point2f position) {
-		setGlobalCenterPosition(position.x, position.y, 0);		
+		setGlobalCenterPosition(position.x, position.y);	
 	}
 	
 	
@@ -33,8 +33,10 @@ public class Light extends SlickEntity {
 	 * @param radius radius of the light
 	 */
 	public Light(Point2f position, int radius) {		
-		setWidth(radius);
-		setGlobalCenterPosition(position.x, position.y, 0);
+		this(position);
+		setRadius(radius);
+		
+		System.out.println(position.x + "|" + position.y + "  " + getWidth() + "|" + getHeight() + "  " + getGlobalCenterX() + "|" + getGlobalCenterY());
 	}
 
 	
@@ -70,5 +72,9 @@ public class Light extends SlickEntity {
 		return getWidth();
 	}
 	
+	
+	public void setRadius(int radius) {
+		setWidth(radius);
+	}
 	
 }

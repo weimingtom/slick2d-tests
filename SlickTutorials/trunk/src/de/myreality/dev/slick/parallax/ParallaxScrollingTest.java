@@ -13,9 +13,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.imageout.ImageOut;
 import org.newdawn.slick.opengl.shader.ShaderProgram;
+import org.newdawn.slick.state.StateBasedGame;
 
 import de.myreality.dev.chronos.resource.ResourceManager;
 import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.slick.SlickEntity;
 
 /**
  * Test case for parallex scolling
@@ -35,7 +37,7 @@ public class ParallaxScrollingTest extends BasicGame {
 	private Camera camera;
 	
 	private ShaderProgram lineShader;
-
+	
 	public ParallaxScrollingTest() {
 		super("Slick2D - Parallax Scrolling Test");
 	}

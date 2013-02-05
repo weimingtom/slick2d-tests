@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -111,12 +115,17 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 		int height = calculateHeight(hash);
 		Image texture = null;
 		try {
+			GLContext.useContext(this);
 			texture = Image.createOffscreenImage(width, height, Image.FILTER_LINEAR);
 			Graphics g = texture.getGraphics();
+			Graphics.setCurrent(g);
 			g.setAntiAlias(true);
-			radialGradient.draw(-width, -height, width * 3, height * 3, getHashColor(hash));
+			radialGradient.draw(-width, -height, width * 3, height * 3, getHashColor());
 			g.flush();
 		} catch (SlickException e) {
+			e.printStackTrace();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return texture;
@@ -150,8 +159,8 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 		return width;
 	}
 	
-	private Color getHashColor(int hash) {
-		int grey = calculateSize(hash, 80, 130, AMPLITUDE / 2);
+	private Color getHashColor() {
+		int grey = calculateSize(seed.hashCode(), 90, 150, AMPLITUDE / 2);
 		return new Color(grey, grey, grey, 255);
 	}
 	

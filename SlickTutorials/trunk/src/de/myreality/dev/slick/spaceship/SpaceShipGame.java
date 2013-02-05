@@ -5,6 +5,10 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.Drawable;
+import org.lwjgl.opengl.SharedDrawable;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -34,6 +38,8 @@ public class SpaceShipGame extends BasicGame {
 	
 	private Image background;
 
+	private SharedDrawable sharedDrawable;
+	
 	public SpaceShipGame() {
 		super("Slick2D - Space Ship Generation");
 	}
@@ -66,7 +72,7 @@ public class SpaceShipGame extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {		
 		
-		Input input = gc.getInput();
+		final Input input = gc.getInput();
 		
 		for (SpaceShip ship : ships) {
 			ship.update(gc, null, delta);
@@ -85,8 +91,19 @@ public class SpaceShipGame extends BasicGame {
 		}
 		
 		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON )) {
-			shipFactory.setSeed(generator.nextSessionId());
-			currentSelection = shipFactory.getNewSpaceShip(input.getMouseX(), input.getMouseY());
+			//Thread thread = new Thread(new Runnable() {
+
+			//	@Override
+			//	public void run() {
+
+					//for (int i = 0; i < 50; ++i) {
+						shipFactory.setSeed(generator.nextSessionId());
+						currentSelection = shipFactory.getNewSpaceShip(input.getMouseX(), input.getMouseY());
+					//}
+			//	}
+			//	
+			//});
+			//thread.start();			
 		}
 	}
 	

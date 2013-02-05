@@ -1,6 +1,8 @@
 package de.myreality.dev.slick.spaceship;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,34 +13,68 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 	
 	private String seed;
 	
-	private static final int MAX_SIZE = 180;
-	private static final int MIN_SIZE = 20;
-	private static final int AMPLITUDE = 800;
-	private static final float SIZE_DIVIDER = 1.8f;
+	private Image shipSprite;
+	
+	private static final int MAX_SIZE = 100;
+	private static final int MIN_SIZE = 30;
+	private static final int AMPLITUDE = 10;
+	private static final float SIZE_DIVIDER = 1.4f;
+	private static Image radialGradient;
+	
+	static {
+		try {
+			radialGradient = new Image("res/black-gradient.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public BasicSpaceShipFactory(String seed) {
-		this.seed = seed;
+		setSeed(seed);
+	}
+	
+	public String getSeed() {
+		return seed;
+	}
+	
+	private void calculateSprite() {
+		shipSprite = generateShipTexture(seed.hashCode(), 10);
 	}
 
 	@Override
 	public SpaceShip getNewSpaceShip(float x, float y) {
 		
-		Image texture = generateShipTexture(seed.hashCode(), 10);
-
-		System.out.println("Size: " +texture.getWidth() + "|" + texture.getHeight() + ", Seed: " + seed);
-		
-		if (texture != null) {
-			SpaceShip ship = new SpaceShip(seed, texture, null, null, null);
-			ship.setBounds(x - (texture.getWidth() / 2), y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight());
+		if (shipSprite != null) {
+			SpaceShip ship = new SpaceShip(seed, shipSprite, null, null, null);
+			ship.setBounds(x - (shipSprite.getWidth() / 2), y - (shipSprite.getHeight() / 2), shipSprite.getWidth(), shipSprite.getHeight());
 			return ship;
 		}
 		return null;
+	}
+	
+	class ImageComperator implements Comparator<Image> {
+
+		@Override
+		public int compare(Image o1, Image o2) {
+			int size1 = o1.getWidth() * o1.getHeight();
+			int size2 = o2.getWidth() * o2.getHeight();
+			
+			if (size1 > size2) {
+				return -1;
+			} else if (size1 < size2) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+		
 	}
 	
 	private Image generateShipTexture(int hash, int layers) {
 		
 		int maxWidth = 0;
 		int maxHeight = 0;
+		ImageComperator imageComperator = new ImageComperator();
 		ArrayList<Image> imageList = new ArrayList<Image>();
 		for (int i = 0; i < layers; ++i) {
 			Image generatedImage = generateImage(hash);
@@ -50,7 +86,7 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 				maxHeight = generatedImage.getHeight();
 			}
 			imageList.add(generatedImage);
-			hash /= 3;
+			hash /= 1.5;
 		}
 		Image resultImage = null;
 		try {
@@ -58,6 +94,8 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 			Graphics g = resultImage.getGraphics();
 			int centerX = maxWidth / 2;
 			int centerY = maxHeight / 2;
+			// Sort the list by size
+			//Collections.sort(imageList, imageComperator);
 			for (Image image : imageList) {
 				g.drawImage(image, centerX - (image.getWidth() / 2), centerY - (image.getHeight() / 2));
 			}
@@ -73,13 +111,12 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 		int height = calculateHeight(hash);
 		Image texture = null;
 		try {
-			texture = Image.createOffscreenImage(width, height);
+			texture = Image.createOffscreenImage(width, height, Image.FILTER_LINEAR);
 			Graphics g = texture.getGraphics();
-			g.setColor(getHashColor(hash));
-			g.fillRect(0, 0, width, height);
+			g.setAntiAlias(true);
+			radialGradient.draw(-width, -height, width * 3, height * 3, getHashColor(hash));
 			g.flush();
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return texture;
@@ -88,6 +125,7 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 	
 	public void setSeed(String seed) {
 		this.seed = seed;
+		calculateSprite();
 	}
 	
 	private float calculateDifference(int min, int max) {
@@ -113,8 +151,8 @@ public class BasicSpaceShipFactory implements SpaceShipFactory {
 	}
 	
 	private Color getHashColor(int hash) {
-		int grey = calculateSize(hash, 30, 80, AMPLITUDE / 2);
-		return new Color(grey, grey, grey);
+		int grey = calculateSize(hash, 80, 130, AMPLITUDE / 2);
+		return new Color(grey, grey, grey, 255);
 	}
 	
 	private int calculateHeight(int hash) {

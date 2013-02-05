@@ -1,6 +1,5 @@
 package de.myreality.dev.slick.spaceship;
 
-import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -14,12 +13,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.imageout.ImageOut;
-import org.newdawn.slick.opengl.shader.ShaderProgram;
 
-import de.myreality.dev.chronos.resource.ResourceManager;
-import de.myreality.dev.chronos.slick.ImageLoader;
+import de.myreality.dev.chronos.util.Point2f;
+import de.myreality.dev.chronos.util.Vector2f;
 
 /**
  * Test case for parallex scolling
@@ -35,6 +31,8 @@ public class SpaceShipGame extends BasicGame {
 	private BasicSpaceShipFactory shipFactory;
 	
 	private SessionIdentifierGenerator generator;
+	
+	private Image background;
 
 	public SpaceShipGame() {
 		super("Slick2D - Space Ship Generation");
@@ -42,6 +40,8 @@ public class SpaceShipGame extends BasicGame {
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		
+		background = new Image("res/backgrounds/space-far.png");
 		ships = new ArrayList<SpaceShip>();
 		generator = new SessionIdentifierGenerator();
 		shipFactory = new BasicSpaceShipFactory(generator.nextSessionId());
@@ -51,19 +51,33 @@ public class SpaceShipGame extends BasicGame {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		
+		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		for (SpaceShip ship : ships) {
 			ship.render(gc, null, g);
 		}
 		currentSelection.render(gc, null, g);
+		g.setColor(Color.green);
+		g.drawString("Current Seed: " + shipFactory.getSeed(), 10, 30);
+		g.setColor(Color.magenta);
+		g.drawString("Render objects: " + ships.size(), 10, 50);
 	}
 
 	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		for (SpaceShip ship : ships) {
-			ship.update(gc, null, delta);
-		}
+	public void update(GameContainer gc, int delta) throws SlickException {		
 		
 		Input input = gc.getInput();
+		
+		for (SpaceShip ship : ships) {
+			ship.update(gc, null, delta);
+			Vector2f direction = new Vector2f(ship.getGlobalCenterPosition(), new Point2f(input.getMouseX(), input.getMouseY()));
+			
+			if (input.getMouseY() < ship.getGlobalCenterY()) {
+				ship.setRotation(-direction.getAngle() -90);
+			} else {
+				ship.setRotation(direction.getAngle() - 90);
+			}
+		}
 
 		currentSelection.setGlobalCenterPosition(input.getMouseX(), input.getMouseY());
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -100,7 +114,7 @@ public class SpaceShipGame extends BasicGame {
 
 	  public String nextSessionId()
 	  {
-	    return new BigInteger(subRandom.nextInt(200), random).toString(subRandom.nextInt(50));
+	    return new BigInteger(128, random).toString(subRandom.nextInt(200));
 	  }
 
 	}

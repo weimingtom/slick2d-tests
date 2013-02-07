@@ -11,10 +11,10 @@ public class ExampleSpaceShipFactory extends BasicSpaceShipFactory {
 
 	public ExampleSpaceShipFactory(String seed) {
 		super(seed);
-		setMinWidth(50);
-		setMaxWidth(70);
-		setMinHeight(80);
-		setMaxHeight(100);
+		setMinWidth(120);
+		setMaxWidth(140);
+		setMinHeight(160);
+		setMaxHeight(200);
 		setSeed(seed);
 	}
 	
@@ -25,13 +25,11 @@ public class ExampleSpaceShipFactory extends BasicSpaceShipFactory {
 			
 			int compexity = getValue(1, 3, getSeed().hashCode());
 			
-			int lastCode = getSeed().hashCode() * 2;
+			int lastCode = getSeed().hashCode() / 2;
 			for (int i = 0; i < compexity; ++i) {
 				layers.add(new BodyLayer(this, lastCode));
 				lastCode += lastCode;
 			}
-			//layers.add(new BodyLayer(this, 239847));
-			//layers.add(new BodyLayer(this, 6848));
 		}
 	}
 

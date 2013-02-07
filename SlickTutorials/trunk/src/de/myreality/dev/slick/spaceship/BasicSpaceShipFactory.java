@@ -1,14 +1,14 @@
 package de.myreality.dev.slick.spaceship;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
+
+import de.myreality.dev.chronos.util.Point2f;
 
 /**
  * Factory that creates layer based space ships from a
@@ -18,8 +18,7 @@ import org.newdawn.slick.util.Log;
  * @version 1.0
  * @since 1.0
  */
-public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
-													   Comparator<ShipLayer> {
+public abstract class BasicSpaceShipFactory implements SpaceShipFactory {
 	
 	/* ====== DEFINITIONS ====== */
 	
@@ -41,24 +40,6 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
 	
 	// Minimum height in pixels
 	private int minHeight;
-	
-	/* ====== STATIC DEFINITIONS ====== */
-
-	/*// Gradient texture
-	private static Image gradientTexture;
-	
-	
-	
-	
-	static {
-		try {
-			// Load the gradient
-			gradientTexture = new Image("res/black-gradient.png");
-		} catch (SlickException e) {
-			Log.error("Can't load the gradient texture for the spaceship factory.");
-		}
-	}*/
-	
 	
 	
 	/* ====== CONSTRUCTORS ====== */
@@ -82,7 +63,7 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
 	public SpaceShip getNewSpaceShip(float x, float y) {
 		
 		if (shipSprite != null) {
-			SpaceShip ship = new SpaceShip(seed, shipSprite, null, null, null);
+			SpaceShip ship = new SpaceShip(seed, shipSprite, getEdges(), getWeaponPoints(), getBoostPoints());
 			ship.setBounds(x - (shipSprite.getWidth() / 2), y - (shipSprite.getHeight() / 2), shipSprite.getWidth(), shipSprite.getHeight());
 			return ship;
 		}
@@ -132,11 +113,71 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
 	public int getMinHeight() {
 		return minHeight;
 	}
+	
+	
+	
+	
+	
+	
+	/* (non-Javadoc)
+	 * @see de.myreality.dev.slick.spaceship.SpaceShipFactory#getSpaceShipWidth()
+	 */
+	@Override
+	public int getSpaceShipWidth() {
+		return getTextureWidth(seed);
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.dev.slick.spaceship.SpaceShipFactory#getSpaceShipHeight()
+	 */
+	@Override
+	public int getSpaceShipHeight() {
+		return getTextureHeight(seed);
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.dev.slick.spaceship.SpaceShipFactory#getEdges()
+	 */
+	@Override
+	public Point2f[] getEdges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.dev.slick.spaceship.SpaceShipFactory#getWeaponPoints()
+	 */
+	@Override
+	public Point2f[] getWeaponPoints() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.dev.slick.spaceship.SpaceShipFactory#getBoostPoints()
+	 */
+	@Override
+	public Point2f[] getBoostPoints() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
+	
 
 	
 	/* ====== SETTERS ====== */
-	
-	
+
+
 	@Override
 	public void setSeed(String seed) {
 		this.seed = seed;
@@ -190,19 +231,29 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
 	
 	
 	private Image generateTexture() throws SlickException {
+		
+		int textureWidth = getTextureWidth(seed);
+		int textureHeight = getTextureHeight(seed);
+		
 		// Load a new texture
-		Image texture = Image.createOffscreenImage(getTextureWidth(seed), 
-												   getTextureHeight(seed));
+		Image texture = Image.createOffscreenImage(textureWidth, textureHeight);
 		
 		// Init the layers
 		Graphics g = texture.getGraphics();		
 		List<ShipLayer> layers = getLayers();
-		Collections.sort(layers, this);
-		ShipLayer lastLayer = null;
+		ShipLayer lastLayer = null;		
+		Image layerTexture = null;
+		
+		// Spaceship color
+		int colorValue = getColorValue(seed);
+		Color color = new Color(colorValue, colorValue, colorValue);
 		
 		// Draw on the texture
-		for (ShipLayer layer : layers) {
-			layer.draw(seed, g, lastLayer);
+		for (int i = 0; i < layers.size(); ++i) {
+			ShipLayer layer = layers.get(i);
+			// Each layer has to know all bottom layers
+			layerTexture = layer.build(textureWidth, textureHeight, lastLayer, color);			
+			g.drawImage(layerTexture, 0, 0, color);			
 			lastLayer = layer;
 		}
 		
@@ -226,27 +277,6 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory,
 	
 	protected abstract int getColorValue(String seed);
 	
-	protected abstract List<ShipLayer> getLayers();
-
-
-
-	/* (non-Javadoc)
-	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public int compare(ShipLayer layer1, ShipLayer layer2) {
-		if (layer1.getID() > layer2.getID()) {
-			return 1;
-		} else if (layer1.getID() < layer2.getID()) {
-			return -1;
-		} else {
-			return 0;
-		}
-	}
-	
-	
-	
-	/* ======= INTERFACE METHODS ====== */
-	
+	protected abstract List<ShipLayer> getLayers();	
 	
 }

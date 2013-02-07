@@ -44,7 +44,7 @@ public class SpaceShipGame extends BasicGame {
 		background = new Image("res/backgrounds/space-far.png");
 		ships = new ArrayList<SpaceShip>();
 		generator = new SessionIdentifierGenerator();
-		shipFactory = new BasicSpaceShipFactory(generator.nextSessionId());
+		shipFactory = new ExampleSpaceShipFactory(generator.nextSessionId());
 		Input input = gc.getInput();
 		currentSelection = shipFactory.getNewSpaceShip(input.getMouseX(), input.getMouseY());
 	}
@@ -56,7 +56,9 @@ public class SpaceShipGame extends BasicGame {
 		for (SpaceShip ship : ships) {
 			ship.render(gc, null, g);
 		}
-		currentSelection.render(gc, null, g);
+		if (currentSelection != null) {
+			currentSelection.render(gc, null, g);
+		}
 		g.setColor(Color.green);
 		g.drawString("Current Seed: " + shipFactory.getSeed(), 10, 30);
 		g.setColor(Color.magenta);
@@ -77,11 +79,22 @@ public class SpaceShipGame extends BasicGame {
 			} else {
 				ship.setRotation(direction.getAngle() - 90);
 			}
+			
+			if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+				gc.exit();
+			}
 		}
 
-		currentSelection.setGlobalCenterPosition(input.getMouseX(), input.getMouseY());
+		if (currentSelection != null) {
+			currentSelection.setGlobalCenterPosition(input.getMouseX(), input.getMouseY());
+		}
+		
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			addRandomShip(input.getMouseX(), input.getMouseY());
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+			gc.exit();
 		}
 		
 		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON )) {
@@ -112,7 +125,7 @@ public class SpaceShipGame extends BasicGame {
 
 		AppGameContainer game = new AppGameContainer(new SpaceShipGame());
 		//game.setVSync(true);
-		game.setDisplayMode(800,600,false);
+		game.setDisplayMode(800,600,true);
 		game.setAlwaysRender(false);
 		game.start();
 	}

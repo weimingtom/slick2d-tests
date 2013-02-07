@@ -1,7 +1,10 @@
 package de.myreality.dev.slick.spaceship;
 
-import org.newdawn.slick.Graphics;
+import java.util.List;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import de.myreality.dev.chronos.util.Point2f;
 
@@ -14,18 +17,26 @@ import de.myreality.dev.chronos.util.Point2f;
  * @since 1.0
  */
 public interface ShipLayer {
-
-	int getWidth();
 	
-	int getHeight();
+	int getTextureWidth();
 	
-	Image getTexture();
+	int getTextureHeight();
+	
+	int getTextureX();
+	
+	int getTextureY();
 	
 	Point2f[] getEdges();
 	
-	void draw(String seed, Graphics g, ShipLayer last);
+	SpaceShipFactory getFactory();
 	
-	int getID();
+	Point2f[] getWeaponPoints();
 	
-	int getPadding();
+	Point2f[] getBoostPoints();
+	
+	boolean isShadingEnabled();
+	
+	Point2f[] calculateTotalEdges(List<ShipLayer> otherLayers);
+	
+	Image build(int width, int height, ShipLayer bottom, Color color) throws SlickException;
 }

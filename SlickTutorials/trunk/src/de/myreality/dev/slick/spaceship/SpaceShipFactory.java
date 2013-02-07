@@ -1,5 +1,7 @@
 package de.myreality.dev.slick.spaceship;
 
+import de.myreality.dev.chronos.util.Point2f;
+
 /**
  * Basic factory for creating space ships
  * 
@@ -27,9 +29,21 @@ public interface SpaceShipFactory {
 	void setSeed(String seed);
 	
 	
+	int getSpaceShipWidth();
+	
+	int getSpaceShipHeight();
+	
+	
 	
 	/**
 	 * @return The current generation seed
 	 */
 	String getSeed();
+	
+	
+	Point2f[] getEdges();
+	
+	Point2f[] getWeaponPoints();
+	
+	Point2f[] getBoostPoints();
 }

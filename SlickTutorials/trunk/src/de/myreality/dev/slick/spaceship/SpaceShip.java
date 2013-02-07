@@ -47,9 +47,10 @@ public class SpaceShip extends SlickEntity {
 		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 			if (texture != null) {
 				Entity parent = getOwner();
-				texture.setRotation(parent.getRotation());
-				texture.draw(parent.getGlobalX(), parent.getGlobalY(), parent.getWidth(), parent.getHeight());		
-				texture.setRotation(0.0f);
+				g.pushTransform();
+				g.rotate(parent.getGlobalCenterX(), parent.getGlobalCenterY(), parent.getRotation());
+				texture.draw(parent.getGlobalX(), parent.getGlobalY(), parent.getWidth(), parent.getHeight());
+				g.popTransform();
 			}
 		}
 		

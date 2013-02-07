@@ -5,10 +5,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.Drawable;
-import org.lwjgl.opengl.SharedDrawable;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -32,13 +28,11 @@ public class SpaceShipGame extends BasicGame {
 	
 	private SpaceShip currentSelection;
 	
-	private BasicSpaceShipFactory shipFactory;
+	private SpaceShipFactory shipFactory;
 	
 	private SessionIdentifierGenerator generator;
 	
 	private Image background;
-
-	private SharedDrawable sharedDrawable;
 	
 	public SpaceShipGame() {
 		super("Slick2D - Space Ship Generation");

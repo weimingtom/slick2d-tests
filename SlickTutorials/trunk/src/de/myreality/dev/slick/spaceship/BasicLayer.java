@@ -55,6 +55,9 @@ public abstract class BasicLayer implements ShipLayer {
 	@Override
 	public Image build(int width, int height, ShipLayer bottom, Color color) throws SlickException {
 
+		setTextureWidth(0);
+		setTextureHeight(0);
+		
 		// Initialize the base texture
 		Image layerTexture = Image.createOffscreenImage(width, height, Image.FILTER_NEAREST);
 		
@@ -82,13 +85,15 @@ public abstract class BasicLayer implements ShipLayer {
 		texture.draw(0, 0, result.getWidth(), result.getHeight());
 		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
 		
-		int width = result.getWidth();
-		int height = result.getHeight();
+		int xPos = getTextureX();
+		int yPos = getTextureY();
+		int width = getTextureWidth();
+		int height = getTextureHeight();
 		
-		if (width > height) {
-			gradientTexture.draw(0, -(width - height) / 2, width, width, color);
+		if (xPos + width > yPos + height) {
+			gradientTexture.draw(xPos, yPos - (width - height) / 2, width, width, color);
 		} else {
-			gradientTexture.draw(-(height - width) / 2, 0, height, height, color);
+			gradientTexture.draw(xPos - (height - width) / 2, yPos, height, height, color);
 		}
 				
 		g.flush();
@@ -137,7 +142,7 @@ public abstract class BasicLayer implements ShipLayer {
 		}
 		
 		if (newHeight > getTextureHeight()) {
-			setTextureWidth(newHeight);
+			setTextureHeight(newHeight);
 		}
 	}
 

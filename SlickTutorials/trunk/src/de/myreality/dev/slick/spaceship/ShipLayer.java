@@ -38,5 +38,5 @@ public interface ShipLayer {
 	
 	Point2f[] calculateTotalEdges(List<ShipLayer> otherLayers);
 	
-	Image build(int width, int height, ShipLayer bottom, Color color) throws SlickException;
+	Image build(int width, int height, List<ShipLayer> otherLayers, Color color) throws SlickException;
 }

@@ -252,7 +252,8 @@ public abstract class BasicSpaceShipFactory implements SpaceShipFactory {
 		for (int i = 0; i < layers.size(); ++i) {
 			ShipLayer layer = layers.get(i);
 			// Each layer has to know all bottom layers
-			layerTexture = layer.build(textureWidth, textureHeight, lastLayer, color);			
+			List<ShipLayer> otherLayers = layers.subList(0, i);
+			layerTexture = layer.build(textureWidth, textureHeight, otherLayers, color);			
 			g.drawImage(layerTexture, 0, 0, color);			
 			lastLayer = layer;
 		}

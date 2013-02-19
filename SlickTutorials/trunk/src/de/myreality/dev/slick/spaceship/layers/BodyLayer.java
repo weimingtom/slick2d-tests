@@ -1,5 +1,7 @@
 package de.myreality.dev.slick.spaceship.layers;
 
+import java.util.List;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -14,9 +16,9 @@ public class BodyLayer extends BasicLayer {
 	
 	private static final int DEFAULT_ADDITIONAL_HASH     = 1;
 	
-	private static final int VALUE_EXPONENT              = 3;
+	private static final int VALUE_EXPONENT              = 2;
 	
-	private static final float SHIFTING_MIN              = 2.0f;
+	private static final float SHIFTING_MIN              = 2.1f;
 	
 	private static final float SHIFTING_MAX              = 2.5f;
 	
@@ -24,17 +26,17 @@ public class BodyLayer extends BasicLayer {
 	
 	private static final float MAX_FIRST_WIDTH_DIVIDER   = 2.5f;
 	
-	private static final float MIN_SECOND_WIDTH_DIVIDER  = 1.2f;
+	private static final float MIN_SECOND_WIDTH_DIVIDER  = 1.1f;
 	
-	private static final float MAX_SECOND_WIDTH_DIVIDER  = 1.4f;
+	private static final float MAX_SECOND_WIDTH_DIVIDER  = 1.2f;
 	
 	private static final float MIN_FIRST_HEIGHT_DIVIDER  = 1.1f;
 	
 	private static final float MAX_FIRST_HEIGHT_DIVIDER  = 1.2f;
 	
-	private static final float MIN_SECOND_HEIGHT_DIVIDER = 2f;
+	private static final float MIN_SECOND_HEIGHT_DIVIDER = 2.2f;
 	
-	private static final float MAX_SECOND_HEIGHT_DIVIDER = 2.8f;
+	private static final float MAX_SECOND_HEIGHT_DIVIDER = 2.6f;
 	
 	public BodyLayer(SpaceShipFactory factory, int additionalHash) {
 		super(factory);
@@ -56,7 +58,7 @@ public class BodyLayer extends BasicLayer {
 	}
 
 	@Override
-	protected void draw(Graphics g, int totalWidth, int totalHeight, ShipLayer lastLayer) {		
+	protected void draw(Graphics g, int totalWidth, int totalHeight, List<ShipLayer> otherLayers) {		
 		Rectangle posSegment1 = drawFirstSegment(g, totalWidth, totalHeight);
 		Rectangle posSegment2 = drawSecondSegment(g, totalWidth, totalHeight);
 		
@@ -71,8 +73,8 @@ public class BodyLayer extends BasicLayer {
 	}
 	
 	private float getValue(float min, float max) {
-		float difference = max - min;
-		return (float) (difference * Math.cos(Math.pow(getFactory().getSeed().hashCode() * additionalHash, VALUE_EXPONENT))+ difference + min);
+		float difference = (max - min) / 2.0f;
+		return (float) (difference * Math.cos(Math.pow(getFactory().getSeed().hashCode() * additionalHash, VALUE_EXPONENT))+ max - difference);
 	}
 	
 	private Point2f drawCentered(Graphics g, int xCenter, int yCenter, int width, int height) {

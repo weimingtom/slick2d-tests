@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.myreality.dev.slick.spaceship.layers.BodyLayer;
+import de.myreality.dev.slick.spaceship.layers.StripeLayer;
 
 public class ExampleSpaceShipFactory extends BasicSpaceShipFactory {
 	
@@ -11,25 +12,28 @@ public class ExampleSpaceShipFactory extends BasicSpaceShipFactory {
 
 	public ExampleSpaceShipFactory(String seed) {
 		super(seed);
-		setMinWidth(120);
-		setMaxWidth(140);
-		setMinHeight(160);
-		setMaxHeight(200);
+		setMinWidth(60);
+		setMaxWidth(70);
+		setMinHeight(80);
+		setMaxHeight(100);
 		setSeed(seed);
 	}
 	
 	private void buildLayers() {
 		if (layers == null) {
 			layers = new ArrayList<ShipLayer>();
-			layers.add(new BodyLayer(this));
 			
-			int compexity = getValue(1, 3, getSeed().hashCode());
-			
+			// Add Body
+			layers.add(new BodyLayer(this));			
+			int compexity = getValue(1, 3, getSeed().hashCode());			
 			int lastCode = getSeed().hashCode() / 2;
 			for (int i = 0; i < compexity; ++i) {
 				layers.add(new BodyLayer(this, lastCode));
 				lastCode += lastCode;
 			}
+			
+			// Add stripes
+			layers.add(new StripeLayer(this));
 		}
 	}
 

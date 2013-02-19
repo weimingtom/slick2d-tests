@@ -125,7 +125,7 @@ public class SpaceShipGame extends BasicGame {
 
 		AppGameContainer game = new AppGameContainer(new SpaceShipGame());
 		//game.setVSync(true);
-		game.setDisplayMode(1920,1080, false);
+		game.setDisplayMode(800,600, false);
 		game.setAlwaysRender(false);
 		game.start();
 	}

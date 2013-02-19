@@ -4,6 +4,8 @@ import net.phys2d.math.ROVector2f;
 import net.phys2d.math.Vector2f;
 import net.phys2d.raw.Body;
 import net.phys2d.raw.BodyList;
+import net.phys2d.raw.CollisionEvent;
+import net.phys2d.raw.CollisionListener;
 import net.phys2d.raw.World;
 import net.phys2d.raw.shapes.AABox;
 import net.phys2d.raw.shapes.Circle;
@@ -22,7 +24,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
 
-public class JBox2DTest extends BasicGame {
+public class JBox2DTest extends BasicGame implements CollisionListener {
 	
 	private World world;
 	
@@ -69,6 +71,7 @@ public class JBox2DTest extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		world = new World(new Vector2f(0.0f, 0.0f), 10);
+		world.addListener(this);
 		image = new Image("res/test.png");
 		planetImage = new Image("res/planet.png");
 		
@@ -117,7 +120,7 @@ public class JBox2DTest extends BasicGame {
 				new Vector2f(0, size)
 				
 		};
-		Body body = new Body("MyBody_" + world.getBodies().size(), new Polygon(pts), 15f);
+		Body body = new Body("MyBody_" + world.getBodies().size(), new Polygon(pts), 20f);
 		
 		float xForce = (float)(Math.random() * 0.2f);
 		float yForce = (float)(Math.random() * 0.2f);
@@ -132,6 +135,9 @@ public class JBox2DTest extends BasicGame {
 		
 		body.setForce(xForce, yForce);
 		body.setPosition(x, y);
+		body.setFriction(100);
+		body.setRestitution(0.1f);
+		body.setTorque(0.01f);
 		world.add(body);
 	}
 	
@@ -160,6 +166,11 @@ public class JBox2DTest extends BasicGame {
 		AppGameContainer game = new AppGameContainer(new JBox2DTest("Slick2D: Game Physics with JBox2D"));
 		game.setDisplayMode(800, 600, false);
 		game.start();
+	}
+
+	@Override
+	public void collisionOccured(CollisionEvent event) {
+		
 	}
 
 }

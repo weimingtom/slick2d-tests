@@ -27,19 +27,17 @@ public class AnimatedCastComponent extends RenderObject {
 		setWidth(10);
 		setHeight(10);
 		
-		attachTo(parent);
-		
 		direction = parent.getDirection();
 		
 		torch = new Torch(0, 0, world);
-		torch.attachTo(this);
 		world.addWorldEntity(torch);
 		torch.setUpperColor(manager.getResource("UPPER_COLOR", Color.class));
 		torch.setUpperColor(manager.getResource("LOWER_COLOR", Color.class));
 		torch.setStartSize(300);
-		torch.setLocalX(getWidth() - torch.getWidth() / 2);
-		torch.setLocalY(getHeight() - torch.getHeight() / 2);
 		this.world = world;
+		torch.setGlobalX(getGlobalX() - torch.getWidth() / 2);
+		torch.setGlobalY(getGlobalY() - torch.getHeight() / 2);
+		setGlobalPosition(parent.getGlobalPosition());
 	}
 
 	@Override
@@ -69,8 +67,8 @@ public class AnimatedCastComponent extends RenderObject {
 			break;			
 		}
 		
-		torch.setLocalX(getWidth() - torch.getWidth() / 2);
-		torch.setLocalY(getHeight() - torch.getHeight() / 2);
+		torch.setGlobalX(getGlobalX() - torch.getWidth() / 2);
+		torch.setGlobalY(getGlobalY() - torch.getHeight() / 2);
 	}
 
 	@Override

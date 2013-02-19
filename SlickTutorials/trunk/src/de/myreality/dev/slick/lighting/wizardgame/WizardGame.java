@@ -62,23 +62,7 @@ public class WizardGame extends BasicGame {
 		WizardMovingComponent moving = new WizardMovingComponent(wizard, world);
 		wizard.addComponent(moving);
 		wizard.setGlobalPosition(1000, 1000);
-		wizard.addToWorld(world);
-		
-		// Add some more wizards
-		for (int i = 0; i < 0; ++i) {
-			Wizard tmp = new Wizard("Wizard", world);
-			int randX = (int) (Math.random() * world.getWidth());
-			int randY = (int) (Math.random() * world.getHeight());
-			tmp.setGlobalPosition(randX, randY);
-			tmp.addToWorld(world);
-		}
-		
-		// Align the camera to the wizard
-		Camera camera = world.getCamera();
-		camera.attachTo(wizard);
-		camera.setLocalX(wizard.getWidth() - camera.getWidth() / 2);
-		camera.setLocalY(wizard.getHeight() - camera.getHeight() / 2);
-		
+		wizard.addToWorld(world);	
 	}
 
 	@Override
@@ -86,8 +70,8 @@ public class WizardGame extends BasicGame {
 			throws SlickException {
 		Camera camera = world.getCamera();
 		
-		camera.setLocalX(wizard.getWidth() - camera.getWidth() / 2);
-		camera.setLocalY(wizard.getHeight() - camera.getHeight() / 2);
+		camera.setGlobalCenterX(wizard.getGlobalCenterX());
+		camera.setGlobalCenterY(wizard.getGlobalCenterY());
 		
 		
 		Input input = container.getInput();
@@ -115,7 +99,7 @@ public class WizardGame extends BasicGame {
 		AppGameContainer game = new AppGameContainer(new WizardGame());
 		game.setAlwaysRender(false);
 		//game.setVSync(true);
-		game.setDisplayMode(800, 600, false);
+		game.setDisplayMode(1280, 1024, false);
 		game.start();
 	}
 

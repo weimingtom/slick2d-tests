@@ -11,6 +11,10 @@ import de.myreality.dev.chronos.resource.ResourceManager;
 
 public class Wizard extends AnimatedSprite {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3685245763462393527L;
 	private Light light;	
 
 	public Wizard(String id, TileWorld world) {
@@ -20,15 +24,14 @@ public class Wizard extends AnimatedSprite {
 		
 		setSpeed(0.1f);
 		
-		light = new Torch(0, 0, world);		
-		
-		light.attachTo(this);	
-		light.setLocalCenterPosition(getWidth() / 2, getHeight() / 2, 0);
+		light = new Torch(0, 0, world);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
 		super.update(gc, sb, delta);
+		light.setGlobalX(getGlobalX() - light.getWidth() / 2);
+		light.setGlobalY(getGlobalY() - light.getHeight() / 2);
 	}
 	
 	

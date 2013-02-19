@@ -53,7 +53,7 @@ public abstract class BasicLayer implements ShipLayer {
 	}
 
 	@Override
-	public Image build(int width, int height, ShipLayer bottom, Color color) throws SlickException {
+	public Image build(int width, int height, List<ShipLayer> otherLayers, Color color) throws SlickException {
 
 		setTextureWidth(0);
 		setTextureHeight(0);
@@ -64,7 +64,7 @@ public abstract class BasicLayer implements ShipLayer {
 		// Draw stuff on base texture
 		Graphics g = layerTexture.getGraphics();
 		g.setColor(color);
-		draw(g, width, height, bottom);
+		draw(g, width, height, otherLayers);
 		g.flush();
 		
 		// Shading via alpha mapping
@@ -134,7 +134,7 @@ public abstract class BasicLayer implements ShipLayer {
 	}
 
 
-	protected abstract void draw(Graphics g, int totalWidth, int totalHeight, ShipLayer bottom);
+	protected abstract void draw(Graphics g, int totalWidth, int totalHeight, List<ShipLayer> otherLayers);
 
 	protected void alignTextureSize(int newWidth, int newHeight) {
 		if (newWidth > getTextureWidth()) {
@@ -168,6 +168,23 @@ public abstract class BasicLayer implements ShipLayer {
 	
 	protected void setTextureY(int y) {
 		this.textureY = y;
+	}
+	
+	
+	protected ShipLayer getBiggestLayer(List<ShipLayer> layers) {
+		ShipLayer biggestLayer = layers.get(0);
+		
+		for (int i = 1; i < layers.size(); ++i) {
+			ShipLayer layer = layers.get(i);
+			int biggestSize = biggestLayer.getTextureWidth() * biggestLayer.getTextureHeight();
+			int layerSize = layer.getTextureWidth() * layer.getTextureHeight();
+			
+			if (layerSize > biggestSize) {
+				biggestLayer = layer;
+			}
+		}
+		
+		return biggestLayer;		
 	}
 	
 	

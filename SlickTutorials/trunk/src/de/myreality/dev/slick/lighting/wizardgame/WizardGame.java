@@ -99,7 +99,7 @@ public class WizardGame extends BasicGame {
 		AppGameContainer game = new AppGameContainer(new WizardGame());
 		game.setAlwaysRender(false);
 		//game.setVSync(true);
-		game.setDisplayMode(1280, 1024, false);
+		game.setDisplayMode(800, 600, true);
 		game.start();
 	}
 

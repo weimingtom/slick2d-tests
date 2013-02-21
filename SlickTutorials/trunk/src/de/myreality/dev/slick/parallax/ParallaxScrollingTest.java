@@ -159,7 +159,7 @@ public class ParallaxScrollingTest extends BasicGame {
 
 		AppGameContainer game = new AppGameContainer(new ParallaxScrollingTest());
 		//game.setVSync(true);
-		game.setDisplayMode(800,600,false);
+		game.setDisplayMode(800,600,true);
 		game.setAlwaysRender(false);
 		game.start();
 	}

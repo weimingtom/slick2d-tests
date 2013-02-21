@@ -9,28 +9,25 @@ import net.phys2d.raw.CollisionListener;
 import net.phys2d.raw.World;
 import net.phys2d.raw.shapes.AABox;
 import net.phys2d.raw.shapes.Circle;
-import net.phys2d.raw.shapes.DynamicShape;
 import net.phys2d.raw.shapes.Polygon;
-import net.phys2d.raw.shapes.Shape;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
 
 public class JBox2DTest extends BasicGame implements CollisionListener {
 	
 	private World world;
 	
-	private Image image, planetImage;
+	private CustomImage image, planetImage;
 
 	private Body planet;
+	
+	private Body customBox;
 
 	public JBox2DTest(String title) {
 		super(title);
@@ -38,8 +35,7 @@ public class JBox2DTest extends BasicGame implements CollisionListener {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		
-		g.setAntiAlias(true);
+
 		BodyList list = world.getBodies();
 		
 		for (int i = 0; i < list.size(); ++i) {
@@ -70,14 +66,27 @@ public class JBox2DTest extends BasicGame implements CollisionListener {
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		world = new World(new Vector2f(0.0f, 0.0f), 10);
+		world = new World(new Vector2f(0.0f, 0.0002f), 50);
 		world.addListener(this);
-		image = new Image("res/test.png");
-		planetImage = new Image("res/planet.png");
+		image = new CustomImage("res/test.png");
+		//image.setColor(Image.BOTTOM_LEFT, 0.1f, 0.1f, 0.1f);
+		planetImage = new CustomImage("res/planet.png");
 		
 		planet = new Body(new Circle(100), 10000000);
 		planet.setPosition(400,  300);
 		world.add(planet);
+		planet.setGravityEffected(false);
+		
+		float size = 30;
+		Vector2f[] pts = {
+				new Vector2f(0, 0),
+				new Vector2f(size, 0),
+				new Vector2f(size, size),
+				new Vector2f(0, size)
+				
+		};
+		customBox = new Body("MyBody_" + world.getBodies().size(), new Polygon(pts), 2000f);
+		world.add(customBox);
 	}
 
 	@Override
@@ -106,6 +115,8 @@ public class JBox2DTest extends BasicGame implements CollisionListener {
 			computeIfOnScreen(gc, body);
 		}
 		
+		customBox.setPosition(input.getMouseX(), input.getMouseY());
+		
 
 		world.step(delta);
 	}
@@ -120,7 +131,7 @@ public class JBox2DTest extends BasicGame implements CollisionListener {
 				new Vector2f(0, size)
 				
 		};
-		Body body = new Body("MyBody_" + world.getBodies().size(), new Polygon(pts), 20f);
+		Body body = new Body("MyBody_" + world.getBodies().size(), new Polygon(pts), 15f);
 		
 		float xForce = (float)(Math.random() * 0.2f);
 		float yForce = (float)(Math.random() * 0.2f);
